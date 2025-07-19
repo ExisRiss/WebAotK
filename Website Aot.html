@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Corps AI - Tembok Pengetahuan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #c00;
+            --secondary: #a00;
+            --dark: #222;
+            --light: #fff;
+            --accent: #900;
+            --text: #333;
+            --text-light: #777;
+            --wing-color: #c00;
+            --ai-primary: #d10000;
+            --ai-secondary: #a00000;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--text);
+            overflow-x: hidden;
+            background-image: url('https://images.unsplash.com/photo-1633613286848-e6f43bbafb8d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            z-index: -1;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, rgba(34, 34, 34, 0.9), rgba(0, 0, 0, 0.9));
+            color: white;
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .logo span {
+            color: var(--primary);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+            position: relative;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            margin-left: 2rem;
+        }
+        
+        .user-menu img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+            border: 2px solid var(--primary);
+        }
+        
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            color: var(--dark);
+            position: relative;
+            text-align: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            z-index: -1;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--dark);
+            font-weight: 400;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(192, 0, 0, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(192, 0, 0, 0.4);
+            background: var(--secondary);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            margin-left: 1rem;
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Wings of Freedom */
+        .wings {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            opacity: 0.2;
+            z-index: -1;
+        }
+        
+        .wings-1 {
+            top: 10%;
+            left: 5%;
+            transform: rotate(-15deg);
+        }
+        
+        .wings-2 {
+            bottom: 10%;
+            right: 5%;
+            transform: rotate(15deg);
+        }
+        
+        /* Search Section */
+        .search-section {
+            padding: 2rem 5%;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 2rem 5%;
+            border-radius: 10px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .search-container {
+            display: flex;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .search-container input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 2px solid #ddd;
+            border-radius: 30px 0 0 30px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .search-container input:focus {
+            border-color: var(--primary);
+        }
+        
+        .search-container button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 2rem;
+            border-radius: 0 30px 30px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .search-container button:hover {
+            background: var(--secondary);
+        }
+        
+        /* Catalog Section */
+        .catalog-section {
+            padding: 4rem 5%;
+            background: rgba(255, 255, 255, 0.9);
+            margin: 2rem 5%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            background: var(--primary);
+            bottom: -10px;
+            left: 25%;
+        }
+        
+        .section-title p {
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--text-light);
+        }
+        
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .catalog-item {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .catalog-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .catalog-img {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .catalog-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .catalog-item:hover .catalog-img img {
+            transform: scale(1.1);
+        }
+        
+        .catalog-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .catalog-content {
+            padding: 1.5rem;
+        }
+        
+        .catalog-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .catalog-content p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        .catalog-price {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .catalog-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        
+        /* AI Assistant Section */
+        .ai-section {
+            padding: 4rem 5%;
+            background: rgba(0, 0, 0, 0.8);
+            margin: 2rem 5%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 1px solid var(--primary);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ai-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+        }
+        
+        .ai-character {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .ai-character img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 2px solid var(--primary);
+        }
+        
+        .ai-name {
+            margin-top: 1rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary);
+            text-align: center;
+        }
+        
+        .ai-title {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .ai-stats {
+            width: 100%;
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+        
+        .stat-item {
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .stat-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .stat-name {
+            color: #ccc;
+        }
+        
+        .stat-value {
+            color: white;
+            font-weight: 600;
+        }
+        
+        .chat-container {
+            background: rgba(30, 30, 30, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .chat-header {
+            background: linear-gradient(135deg, var(--ai-primary), var(--ai-secondary));
+            color: white;
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .chat-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            border: 2px solid white;
+        }
+        
+        .chat-header-info h3 {
+            font-size: 1.2rem;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .chat-header-info p {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            padding: 1.5rem;
+            background: rgba(20, 20, 20, 0.7);
+        }
+        
+        .message {
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .message-ai {
+            align-items: flex-start;
+        }
+        
+        .message-user {
+            align-items: flex-end;
+        }
+        
+        .message-bubble {
+            max-width: 70%;
+            padding: 1rem 1.5rem;
+            border-radius: 20px;
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+            position: relative;
+            font-size: 0.95rem;
+        }
+        
+        .ai-bubble {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-bottom-left-radius: 5px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .user-bubble {
+            background: var(--ai-primary);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .message-info {
+            display: flex;
+            align-items: center;
+            font-size: 0.7rem;
+            color: #777;
+        }
+        
+        .message-info i {
+            margin-right: 0.5rem;
+        }
+        
+        .chat-input-container {
+            display: flex;
+            padding: 1rem;
+            background: rgba(30, 30, 30, 0.9);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 30px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .chat-input:focus {
+            border-color: var(--ai-primary);
+            box-shadow: 0 0 0 2px rgba(209, 0, 0, 0.3);
+        }
+        
+        .chat-send {
+            margin-left: 1rem;
+            background: var(--ai-primary);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .chat-send:hover {
+            background: var(--ai-secondary);
+            transform: translateY(-3px);
+        }
+        
+        .prompt-suggestions {
+            padding: 1rem;
+            background: rgba(40, 40, 40, 0.9);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .prompt-suggestions h3 {
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+            color: #aaa;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .prompt-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .prompt-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            color: #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .prompt-btn:hover {
+            background: var(--ai-primary);
+            color: white;
+            border-color: var(--ai-primary);
+        }
+        
+        /* Stalk Feature */
+        .stalk-feature {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+        
+        .stalk-btn {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            border: none;
+        }
+        
+        .stalk-btn:hover {
+            transform: scale(1.1);
+            background: var(--secondary);
+        }
+        
+        .stalk-panel {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 300px;
+            background: rgba(0,0,0,0.9);
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 1px solid var(--primary);
+            display: none;
+        }
+        
+        .stalk-panel.active {
+            display: block;
+        }
+        
+        .stalk-panel h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .stalk-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .stalk-item {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .stalk-item:last-child {
+            border-bottom: none;
+        }
+        
+        .stalk-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            object-fit: cover;
+        }
+        
+        .stalk-info h4 {
+            color: white;
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+        }
+     .stalk-info p {
+            color: #aaa;
+            font-size: 0.7rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 3rem 5%;
+            text-align: center;
+            border-top: 2px solid var(--primary);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        
+        .footer-col h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary);
+        }
+        
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 2px;
+            background: var(--primary);
+            bottom: -5px;
+            left: 0;
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-col ul li a {
+            color: #bbb;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .footer-col ul li a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            margin-top: 1.5rem;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            margin-right: 1rem;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .ai-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .ai-character {
+                margin-bottom: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: rgba(0,0,0,0.95);
+                flex-direction: column;
+                align-items: center;
+                padding-top: 2rem;
+                transition: all 0.5s ease;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 1.5rem 0;
+            }
+                        .user-menu {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+            
+            .menu-toggle {
+                display: block;
+                font-size: 1.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .btn-container {
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .btn-outline {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+            
+            .message-bubble {
+                max-width: 85%;
+            }
+            
+            .search-container {
+                flex-direction: column;
+            }
+            
+            .search-container input {
+                border-radius: 30px;
+                margin-bottom: 1rem;
+            }
+            
+            .search-container button {
+                border-radius: 30px;
+                padding: 1rem;
+            }
+            
+            .wings {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header/Navbar -->
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fas fa-cross"></i>
+                <span>Survey <span>Corps</span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Beranda</a></li>
+                <li><a href="#catalog">Katalog</a></li>
+                <li><a href="#ai">AI Assistant</a></li>
+                <li><a href="#about">Tentang</a></li>
+                <li>
+                    <a href="https://attackontitan.fandom.com/wiki/Attack_on_Titan_Wiki" target="_blank">Wiki AOT</a>
+                </li>
+                <li>
+                    <a href="https://www.crunchyroll.com/series/GR751KNZY/attack-on-titan" target="_blank">Nonton Anime</a>
+                </li>
+            </ul>
+            <div class="user-menu">
+                <img src="https://i.pinimg.com/originals/2a/c2/3e/2ac23e7c4a8a9a6a4c9e4d9e0e9e9e9e.jpg" alt="Profile">
+                <span>Eren Yeager</span>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="wings wings-1">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <path fill="var(--wing-color)" d="M100,20 C120,40 140,60 160,80 C180,100 180,120 160,140 C140,160 120,180 100,200 C80,180 60,160 40,140 C20,120 20,100 40,80 C60,60 80,40 100,20 Z" opacity="0.7"/>
+            </svg>
+        </div>
+        <div class="wings wings-2">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <path fill="var(--wing-color)" d="M100,20 C120,40 140,60 160,80 C180,100 180,120 160,140 C140,160 120,180 100,200 C80,180 60,160 40,140 C20,120 20,100 40,80 C60,60 80,40 100,20 Z" opacity="0.7"/>
+            </svg>
+        </div>
+        <div class="hero-content">
+            <h1>KENALI MUSUHMU <span>LEBIH DEKAT</span></h1>
+            <p>Dengan teknologi AI canggih Survey Corps, kami membantu Anda memahami dan mengalahkan Titan dengan strategi yang lebih baik.</p>
+            <div class="btn-container">
+                <a href="#ai" class="btn">Tanya AI Kami</a>                <a href="#catalog" class="btn btn-outline">Lihat Katalog</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="search-container">
+            <input type="text" placeholder="Cari informasi tentang Titan, senjata, atau strategi...">
+            <button><i class="fas fa-search"></i> Cari</button>
+        </div>
+    </section>
+
+    <!-- Catalog Section -->
+    <section class="catalog-section" id="catalog">
+        <div class="section-title">
+            <h2>Katalog Perlengkapan</h2>
+            <p>Temukan berbagai perlengkapan dan senjata yang digunakan oleh Survey Corps dalam pertempuran melawan Titan.</p>
+        </div>
+        
+        <div class="catalog-grid">
+            <div class="catalog-item">
+                <div class="catalog-img">
+                    <img src="https://images.unsplash.com/photo-1584735422189-080a8d1a9e0f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="3D Maneuver Gear">
+                    <div class="catalog-badge">Terlaris</div>
+                </div>
+                <div class="catalog-content">
+                    <h3>3D Maneuver Gear</h3>
+                    <p>Perangkat gerakan tiga dimensi yang memungkinkan mobilitas tinggi di antara bangunan dan pohon.</p>
+                    <span class="catalog-price">Rp 4.500.000</span>
+                    <div class="catalog-meta">
+                        <span><i class="fas fa-box"></i> 120 stok</span>
+                        <span><i class="fas fa-star"></i> 4.9/5</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="catalog-item">
+                <div class="catalog-img">
+                    <img src="https://images.unsplash.com/photo-1589985270826-4b7bb1352109?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Blades">
+                    <div class="catalog-badge">Baru</div>
+                </div>
+                <div class="catalog-content">
+                    <h3>Bilah Pemotong Ultra-Hard Steel</h3>
+                    <p>Bilah tajam khusus untuk memotong titik lemah Titan. Set termasuk 6 bilah pengganti.</p>
+                    <span class="catalog-price">Rp 1.200.000</span>
+                    <div class="catalog-meta">
+                        <span><i class="fas fa-box"></i> 85 stok</span>
+                        <span><i class="fas fa-star"></i> 4.7/5</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="catalog-item">
+                <div class="catalog-img">
+                    <img src="https://images.unsplash.com/photo-1611591437281-4608be122683?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Uniform">
+                </div>
+                <div class="catalog-content">
+                    <h3>Seragam Survey Corps</h3>
+                    <p>Seragam resmi dengan bahan tahan lama dan desain aerodinamis untuk pertempuran.</p>
+                    <span class="catalog-price">Rp 1.800.000</span>
+                    <div class="catalog-meta">
+                        <span><i class="fas fa-box"></i> 65 stok</span>
+                        <span><i class="fas fa-star"></i> 4.5/5</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="catalog-item">
+                <div class="catalog-img">
+                    <img src="https://images.unsplash.com/photo-1547036967-23d11aacaee0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Gas Canister">
+                </div>
+                <div class="catalog-content">
+                    <h3>Tabung Gas Propulsi</h3>
+                    <p>Tabung gas isi ulang untuk 3D Maneuver Gear. Satu tabung cukup untuk 4 jam operasi.</p>
+                    <span class="catalog-price">Rp 750.000</span>
+                    <div class="catalog-meta">
+                        <span><i class="fas fa-box"></i> 200 stok</span>
+                        <span><i class="fas fa-star"></i> 4.8/5</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Assistant Section -->
+    <section class="ai-section" id="ai">
+        <div class="section-title">
+            <h2>Hange Zoë AI Assistant</h2>
+            <p>Asisten AI berbasis pengetahuan Titan yang diinspirasi oleh Hange Zoë dari Survey Corps</p>
+        </div>
+        
+        <div class="ai-container">
+            <div class="ai-character">
+                <img src="https://i.pinimg.com/originals/8f/1f/8d/8f1f8d9b9e9e9e9e9e9e9e9e9e9e9e9e.jpg" alt="Hange Zoë AI">
+                <h3 class="ai-name">Hange Zoë AI</h3>
+                <p class="ai-title">Kepala Divisi Penelitian Survey Corps</p>
+                
+                <div class="ai-stats">
+                    <div class="stat-item">
+                        <span class="stat-name">Pengetahuan Titan:</span>
+                        <span class="stat-value">98%</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-name">Strategi Tempur:</span>
+                        <span class="stat-value">95%</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-name">Kecerdasan:</span>
+                        <span class="stat-value">99%</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-name">Kesetiaan:</span>
+                        <span class="stat-value">100%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chat-container">
+                <div class="chat-header">
+                    <img src="https://i.pinimg.com/originals/8f/1f/8d/8f1f8d9b9e9e9e9e9e9e9e9e9e9e9e9e.jpg" alt="Hange Zoë">
+                    <div class="chat-header-info">
+                        <h3>Hange Zoë AI</h3>
+                        <p>Online - Siap membantu penelitian Titan Anda</p>
+                    </div>
+                </div>
+                
+                <div class="chat-messages" id="chat-messages">
+                    <!-- Pesan AI Selamat Datang -->
+                    <div class="message message-ai">
+                        <div class="message-bubble ai-bubble">
+                            Halo, aku Hange Zoë AI! *berbinar-binar* Aku sangat bersemangat bisa membantumu meneliti Titan! Ada yang bisa aku bantu? Aku tahu segalanya tentang Titan dan punya banyak ide gila... eh, maksudku brilian untuk mengalahkan mereka!
+                        </div>                        <div class="message-info">
+                            <i class="fas fa-robot"></i> Hange AI • Baru saja
+                        </div>
+                    </div>
+                    
+                    <!-- Contoh Percakapan -->
+                    <div class="message message-user">
+                        <div class="message-bubble user-bubble">
+                            Apa kelemahan Titan?
+                        </div>
+                        <div class="message-info">
+                            <i class="fas fa-user"></i> Anda • 2 menit lalu
+                        </div>
+                    </div>
+                    
+                    <div class="message message-ai">
+                        <div class="message-bubble ai-bubble">
+                            *tertawa gembira* Pertanyaan favoritku! Kebanyakan Titan memiliki titik lemah di bagian belakang leher. Potong bagian itu dan mereka akan mati! Tapi ada pengecualian seperti Titan Abnormal atau Titan Bertubuh Keras. Oh! Dan Titan Wanita yang... *mulai berbicara sangat cepat* tunggu, aku terlalu bersemangat. Maaf!
+                        </div>
+                        <div class="message-info">
+                            <i class="fas fa-robot"></i> Hange AI • 1 menit lalu
+                        </div>
+                    </div>
+                    
+                    <div class="message message-user">
+                        <div class="message-bubble user-bubble">
+                            Bagaimana cara kerja 3D Maneuver Gear?
+                        </div>
+                        <div class="message-info">
+                            <i class="fas fa-user"></i> Anda • Baru saja
+                        </div>
+                    </div>
+                    
+                    <div class="message message-ai">
+                        <div class="message-bubble ai-bubble">
+                            *mengeluarkan diagram* Ini sangat menarik! Gear ini menggunakan gas bertekanan tinggi untuk mendorong pengguna dan kabel pengait untuk bergerak di antara bangunan. Aku dan tim sudah menyempurnakannya selama bertahun-tahun! Kamu harus mencobanya - rasanya seperti terbang! *tersenyum lebar*
+                        </div>
+                        <div class="message-info">
+                            <i class="fas fa-robot"></i> Hange AI • Baru saja
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="prompt-suggestions">
+                    <h3>Coba tanyakan:</h3>
+                    <div class="prompt-buttons">
+                        <button class="prompt-btn">Ceritakan tentang Titan Kolosal</button>
+                        <button class="prompt-btn">Apa strategi terbaik melawan Titan?</button>
+                        <button class="prompt-btn">Bagaimana sejarah tembok?</button>
+                        <button class="prompt-btn">Apa penelitian terbarumu?</button>
+                    </div>
+                </div>
+                
+                <div class="chat-input-container">
+                    <input type="text" class="chat-input" id="user-input" placeholder="Tanyakan sesuatu pada Hange...">
+                    <button class="chat-send" id="send-btn"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stalk Feature -->
+    <div class="stalk-feature">
+        <button class="stalk-btn" id="stalk-btn"><i class="fas fa-eye"></i></button>
+        <div class="stalk-panel" id="stalk-panel">
+            <h3>Aktivitas Terakhir</h3>
+            <div class="stalk-list">
+                <div class="stalk-item">
+                    <img src="https://i.pinimg.com/originals/2a/c2/3e/2ac23e7c4a8a9a6a4c9e4d9e0e9e9e9e.jpg" alt="Eren">
+                    <div class="stalk-info">
+                        <h4>Eren Yeager</h4>
+                        <p>Melihat katalog 3D Maneuver Gear</p>
+                    </div>
+                </div>
+                <div class="stalk-item">
+                    <img src="https://i.pinimg.com/originals/9b/9b/9b/9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b.jpg" alt="Mikasa">
+                    <div class="stalk-info">
+                        <h4>Mikasa Ackerman</h4>
+                        <p>Berkonsultasi dengan Hange AI</p>
+                    </div>
+                </div>
+                <div class="stalk-item">
+                    <img src="https://i.pinimg.com/originals/8f/1f/8d/8f1f8d9b9e9e9e9e9e9e9e9e9e9e9e9e.jpg" alt="Hange">
+                    <div class="stalk-info">
+                        <h4>Hange Zoë</h4>
+                        <p>Update database Titan</p>
+                    </div>
+                </div>
+                <div class="stalk-item">
+                    <img src="https://i.pinimg.com/originals/5a/5a/5a/5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a.jpg" alt="Levi">
+                    <div class="stalk-info">
+                        <h4>Levi Ackerman</h4>
+                        <p>Membeli bilah pemotong</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h3>Survey Corps</h3>
+                <p>Organisasi militer yang bertugas meneliti dan memerangi Titan di luar tembok. Kami berdedikasi untuk kebebasan umat manusia.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Divisi</h3>
+                <ul>
+                    <li><a href="#">Divisi Penelitian</a></li>
+                    <li><a href="#">Divisi Operasi</a></li>
+                    <li><a href="#">Divisi Pelatihan</a></li>
+                    <li><a href="#">Divisi Logistik</a></li>
+                    <li><a href="#">Divisi Medis</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#">Panduan Titan</a></li>
+                    <li><a href="#">Manual 3D Gear</a></li>
+                    <li><a href="#">Peta Wilayah</a></li>
+                    <li><a href="#">Laporan Ekspedisi</a></li>
+                    <li><a href="#">Arsip Penelitian</a></li>
+                </ul>            </div>
+            <div class="footer-col">
+                <h3>Bergabung</h3>
+                <p>Ingin bergabung dengan Survey Corps? Daftarkan diri Anda untuk pelatihan berikutnya.</p>
+                <form style="margin-top: 1rem;">
+                    <input type="email" placeholder="Email Anda" style="width: 100%; padding: 0.8rem; border-radius: 5px; border: none; margin-bottom: 0.5rem;">
+                    <button type="submit" class="btn" style="width: 100%; padding: 0.8rem;">Daftar Sekarang</button>
+                </form>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 Survey Corps. Semua hak dilindungi. "Attack on Titan" adalah hak cipta Hajime Isayama dan Kodansha.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // Smooth Scrolling for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                
+                // Close mobile menu when a link is clicked
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                }
+            });
+        });
+        
+        // Chat Functionality
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const promptButtons = document.querySelectorAll('.prompt-btn');
+        
+        // Fungsi untuk menambahkan pesan ke chat
+        function addMessage(text, isUser) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message message-${isUser ? 'user' : 'ai'}`;
+            
+            const bubbleDiv = document.createElement('div');
+            bubbleDiv.className = `message-bubble ${isUser ? 'user-bubble' : 'ai-bubble'}`;
+            bubbleDiv.innerHTML = text; // Menggunakan innerHTML untuk formatting
+            
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'message-info';
+            
+            const icon = document.createElement('i');
+            icon.className = isUser ? 'fas fa-user' : 'fas fa-robot';
+            
+            const textNode = document.createTextNode(isUser ? ' Anda • Baru saja' : ' Hange AI • Baru saja');
+            
+            infoDiv.appendChild(icon);
+            infoDiv.appendChild(textNode);
+            
+            messageDiv.appendChild(bubbleDiv);
+            messageDiv.appendChild(infoDiv);
+            
+            chatMessages.appendChild(messageDiv);
+            
+            // Scroll ke bawah
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Fungsi untuk mendapatkan respons AI (simulasi)
+        function getAIResponse(userMessage) {
+            // Karakteristik Hange Zoë
+            const hangePersonality = [
+                "*tertawa gembira*",
+                "*berbinar-binar*",
+                "*mulai berbicara sangat cepat*",
+                "*mengeluarkan diagram*",
+                "*tersenyum lebar*",
+                "*mengambil notes*",
+                "*berteriak penuh semangat*"
+            ];
+            
+            const randomPersonality = hangePersonality[Math.floor(Math.random() * hangePersonality.length)];
+            
+            // Database pengetahuan Titan
+            const responses = {
+                "kelemahan titan": `${randomPersonality} Kebanyakan Titan memiliki titik lemah di bagian belakang leher! Potong bagian itu dengan bilah ultra-hard steel dan mereka akan mati! Tapi Titan Abnormal bisa memiliki perilaku berbeda... oh ini sangat menarik!`,
+                "3d maneuver gear": `Gear ini adalah karya brilian! *menggambar di udara* Ini menggunakan gas bertekanan dan kabel pengait untuk bergerak tiga dimensi. Aku dan tim menghabiskan bertahun-tahun menyempurnakannya! Kamu harus mencobanya - rasanya seperti terbang!`,
+                "titan kolosal": `OH! Titan Kolosal! *berteriak* Tingginya 60 meter dan muncul tiba-tiba di Distrik Shiganshina! Kulitnya mengeluarkan uap panas dan... tunggu, aku terlalu bersemangat. Intinya, dia sangat besar dan menghancurkan tembok Maria!`,
+                "strategi titan": `*mengeluarkan peta* Kita perlu memanfaatkan 3D Maneuver Gear dan bekerja dalam tim! Serang dari belakang dan potong titik lemahnya. Tapi hati-hati dengan Titan Abnormal - mereka tidak bisa diprediksi!`,
+                "sejarah tembok": `Tembok Maria, Rose dan Sina dibangun sekitar 100 tahun lalu untuk melindungi kita dari Titan. Tapi... *suara menjadi serius* sepertinya ada banyak rahasia tentang asal-usul tembok ini. Aku masih menelitinya!`,
+                "penelitian terbaru": `*tersenyum misterius* Aku sedang meneliti sifat regenerasi Titan dan... tunggu, ini informasi rahasia Survey Corps! Tapi bisa kubilang, temuanku sangat MENGGEMPARKAN!`,
+                "eren yeager": `Eren... *suara menjadi serius* Dia sangat spesial. Kemampuannya berubah menjadi Titan bisa menjadi kunci untuk memahami semua ini. Tapi kita harus berhati-hati...`,
+                "levi ackerman": `Levi? *tertawa* Dia manusia terkuat kita! Meski kadang terlalu serius... tapi teknik bertempurnya luar biasa! Aku sering meminta nasihatnya untuk penelitian.`,
+                "mikasa ackerman": `Mikasa itu luar biasa! Kemampuannya melebihi manusia biasa. Aku penasaran apakah ada hubungannya dengan garis keturunan Ackerman... *mulai berbicara cepat tentang teori*`,
+                "armin arlert": `Armin sangat cerdas! Meski tidak sekuat yang lain, strateginya sering menyelamatkan kita. Otaknya adalah senjata terkuatnya!`
+            };
+            
+            const lowerMessage = userMessage.toLowerCase();
+            
+            for (const [key, value] of Object.entries(responses)) {
+                if (lowerMessage.includes(key)) {
+                    return value;
+                }
+            }
+            
+            // Default response dengan kepribadian Hange
+            const defaultResponses = [
+                `${randomPersonality} Pertanyaan yang menarik! Aku belum pernah memikirkan itu... *mengambil notes* Aku akan menelitinya!`,
+                `*menggaruk kepala* Hmm... aku tidak yakin tentang itu. Tapi ini membuatku penasaran! Mari kita cari tahu bersama!`,
+                `${randomPersonality} Maaf, aku terlalu bersemangat! Bisa kamu ulangi pertanyaannya? Atau mungkin tanya tentang Titan? Aku tahu segalanya tentang mereka!`,
+                `*tersenyum* Aku lebih ahli di bidang Titan dan pertempuran. Ada yang bisa aku bantu tentang itu?`
+            ];
+            
+            return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
+        }
+        
+        // Event listener untuk tombol kirim
+        sendBtn.addEventListener('click', () => {
+            const message = userInput.value.trim();
+            if (message) {
+                addMessage(message, true);
+                userInput.value = '';
+                
+                // Simulasi AI sedang mengetik
+                setTimeout(() => {
+                    const aiResponse = getAIResponse(message);
+                    addMessage(aiResponse, false);
+                }, 1000 + Math.random() * 2000); // Random delay untuk efek lebih natural
+            }
+        });
+        
+        // Event listener untuk input field (Enter key)
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendBtn.click();
+            }
+        });
+        
+        // Event listener untuk prompt buttons
+        promptButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                userInput.value = button.textContent;
+                userInput.focus();
+            });
+        });
+        
+        // Stalk Feature
+        const stalkBtn = document.getElementById('stalk-btn');
+        const stalkPanel = document.getElementById('stalk-panel');
+        
+        stalkBtn.addEventListener('click', () => {
+            stalkPanel.classList.toggle('active');
+        });
+        
+        // Close stalk panel when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!stalkBtn.contains(e.target) && !stalkPanel.contains(e.target)) {
+                stalkPanel.classList.remove('active');
+            }
+        });
+        
+        // Animate wings on scroll
+        window.addEventListener('scroll', () => {
+            const wings1 = document.querySelector('.wings-1');
+            const wings2 = document.querySelector('.wings-2');
+            const scrollPosition = window.scrollY;
+            
+            wings1.style.transform = `rotate(${-15 + scrollPosition / 20}deg)`;
+            wings2.style.transform = `rotate(${15 + scrollPosition / 20}deg)`;
+        });
+    </script>
+</body>
+</html>
+```
